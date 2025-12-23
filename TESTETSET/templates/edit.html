@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}投稿を編集 - 掲示板{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>✏️ 投稿を編集</h2>
+    <p class="subtitle">投稿ID: {{ post.id }}</p>
+</div>
+
+<div class="form-container">
+    <form method="POST" action="{{ url_for('edit', post_id=post.id) }}" class="post-form">
+        <div class="form-group">
+            <label for="title">タイトル <span class="required">*</span></label>
+            <input 
+                type="text" 
+                id="title" 
+                name="title" 
+                class="form-control" 
+                value="{{ post.title }}"
+                required
+                maxlength="100"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="author">投稿者名 <span class="required">*</span></label>
+            <input 
+                type="text" 
+                id="author" 
+                name="author" 
+                class="form-control" 
+                value="{{ post.author }}"
+                required
+                maxlength="50"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="content">内容 <span class="required">*</span></label>
+            <textarea 
+                id="content" 
+                name="content" 
+                class="form-control" 
+                rows="10" 
+                required
+            >{{ post.content }}</textarea>
+        </div>
+
+        <div class="post-info">
+            <p><strong>作成日時:</strong> {{ post.created_at[:10] }} {{ post.created_at[11:19] }}</p>
+            {% if post.created_at != post.updated_at %}
+            <p><strong>最終更新:</strong> {{ post.updated_at[:10] }} {{ post.updated_at[11:19] }}</p>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large">💾 更新する</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary btn-large">キャンセル</a>
+        </div>
+    </form>
+</div>
+
+<div class="help-text">
+    <h4>💡 編集のヒント</h4>
+    <ul>
+        <li>変更内容は保存ボタンを押すまで反映されません</li>
+        <li>更新日時が自動的に記録されます</li>
+        <li>キャンセルすると変更は破棄されます</li>
+    </ul>
+</div>
+{% endblock %}
